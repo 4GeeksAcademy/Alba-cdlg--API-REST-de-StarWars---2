@@ -46,7 +46,7 @@ def get_people():
 def get_single_person(people_id):
     person = People.query.get(people_id)
     if person is None:
-        return jsonify({"error": "Character not fount"}), 404
+        return jsonify({"error": "Character not found"}), 404
     return jsonify(person.serialize()), 200
 
 
