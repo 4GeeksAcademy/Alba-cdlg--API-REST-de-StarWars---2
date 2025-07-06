@@ -41,6 +41,14 @@ def get_people():
     results = [person.serialize() for person in people]
     return jsonify(results), 200
 
+
+@app.route('/people/<int:people_id>', methods=['GET'])
+def get_single_person(people_id):
+    person = People.query.get(people_id)
+    if person is None:
+        return jsonify({"error": "Character not fount"}), 404
+    return jsonify(person.serialize()), 200
+
 # generate sitemap with all your endpoints
 
 
