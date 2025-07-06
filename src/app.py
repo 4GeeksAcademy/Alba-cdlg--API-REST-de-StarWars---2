@@ -103,6 +103,24 @@ def add_favorite_planet(planet_id):
     return jsonify({"msg": f"Planet {planet_id} added to favorites"}), 201
 
 
+@app.route('/favorite/people/<int:people_id>', methods=['POST'])
+def add_favorite_people(people_id):
+    user_id = 1  # Simulamos el usuario actual con ID 1
+
+    # Comprobar si el personaje existe
+    person = People.query.get(people_id)
+    if person is None:
+        return jsonify({"error": "Character not found"}), 404
+
+    # Crear el nuevo favorito
+    new_favorite = Favorite(
+        user_id=user_id, people_id=people_id, planet_id=None)
+    db.session.add(new_favorite)
+    db.session.commit()
+
+    return jsonify({"msg": f"Character {people_id} added to favorites"}), 201
+
+
 # generate sitemap with all your endpoints
 
 
