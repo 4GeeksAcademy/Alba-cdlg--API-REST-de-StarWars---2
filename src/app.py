@@ -138,6 +138,22 @@ def delete_favorite_planet(planet_id):
     return jsonify({"msg": f"Planet {planet_id} removed from favorites"}), 200
 
 
+@app.route('/favorite/people/<int:people_id>', methods=['DELETE'])
+def delete_favorite_people(people_id):
+    user_id = 1  # Simulamos el usuario actual con ID 1
+
+    # Buscar el favorito
+    favorite = Favorite.query.filter_by(
+        user_id=user_id, people_id=people_id).first()
+    if favorite is None:
+        return jsonify({"error": "Favorite character not found"}), 404
+
+    # Eliminar el favorito
+    db.session.delete(favorite)
+    db.session.commit()
+
+    return jsonify({"msg": f"Character {people_id} removed from favorites"}), 200
+
 # generate sitemap with all your endpoints
 
 
