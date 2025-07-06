@@ -56,6 +56,13 @@ def get_planets():
     results = [planet.serialize() for planet in planets]
     return jsonify(results), 200
 
+@app.route('/planets/<int:planet_id>', methods=['GET'])
+def get_single_planet(planet_id):
+    planet = Planet.query.get(planet_id)
+    if planet is None:
+        return jsonify({"error": "Planet not found"}), 404
+    return jsonify(planet.serialize()), 200
+
 
 # generate sitemap with all your endpoints
 
