@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, People, Planet
+from models import db, User, People, Planet, Favorite
 # from models import Person
 
 app = Flask(__name__)
@@ -69,6 +69,19 @@ def get_single_planet(planet_id):
 def get_users():
     users = User.query.all()
     results = [user.serialize() for user in users]
+    return jsonify(results), 200
+
+
+@app.route('/users/favorites', methods=['GET'])
+def get_user_favorites():
+    user_id = 1  # Simulamos el usuario actual con ID 1
+
+    # Buscamos todos los favoritos de ese usuario
+    favorites = Favorite.query.filter_by(user_id=user_id).all()
+
+    # Serializamos cada favorito
+    results = [fav.serialize() for fav in favorites]
+
     return jsonify(results), 200
 
 
