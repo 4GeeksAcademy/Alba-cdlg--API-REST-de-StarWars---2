@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, People
+from models import db, User, People, Planet
 # from models import Person
 
 app = Flask(__name__)
@@ -48,6 +48,14 @@ def get_single_person(people_id):
     if person is None:
         return jsonify({"error": "Character not fount"}), 404
     return jsonify(person.serialize()), 200
+
+
+@app.route('/planets', methods=['GET'])
+def get_planets():
+    planets = Planet.query.all()
+    results = [planet.serialize() for planet in planets]
+    return jsonify(results), 200
+
 
 # generate sitemap with all your endpoints
 
